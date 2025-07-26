@@ -3,6 +3,26 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js";
 
+/**
+ * @api {post} /auth/signup User Signup
+ * @apiName UserSignup
+ * @apiGroup Auth
+ * @apiDescription Registers a new user with full name, email, and password.
+ *
+ * @apiParam {String} fullName Full name of the user.
+ * @apiParam {String} email Email address of the user.
+ * @apiParam {String} password Password for the user account (minimum 6 characters).
+ *
+ * @apiSuccess {String} message Success message.
+ * @apiSuccess {Object} user User details.
+ * @apiSuccess {String} user._id User ID.
+ * @apiSuccess {String} user.fullName Full name of the user.
+ * @apiSuccess {String} user.email Email address of the user.
+ * @apiSuccess {String} token Authentication token.
+ *
+ * @apiError (400) BadRequest Missing required fields, invalid password length, or email already exists.
+ * @apiError (500) InternalServerError Internal server error.
+ */
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
@@ -47,6 +67,25 @@ export const signup = async (req, res) => {
   }
 };
 
+/**
+ * @api {post} /auth/login User Login
+ * @apiName UserLogin
+ * @apiGroup Auth
+ * @apiDescription Authenticates a user with email and password.
+ *
+ * @apiParam {String} email Email address of the user.
+ * @apiParam {String} password Password for the user account.
+ *
+ * @apiSuccess {Object} user User details.
+ * @apiSuccess {String} user._id User ID.
+ * @apiSuccess {String} user.fullName Full name of the user.
+ * @apiSuccess {String} user.email Email address of the user.
+ * @apiSuccess {String} user.profilePic Profile picture URL of the user.
+ * @apiSuccess {String} token Authentication token.
+ *
+ * @apiError (400) BadRequest Invalid credentials.
+ * @apiError (500) InternalServerError Internal server error.
+ */
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -75,6 +114,16 @@ export const login = async (req, res) => {
   }
 };
 
+/**
+ * @api {post} /auth/logout User Logout
+ * @apiName UserLogout
+ * @apiGroup Auth
+ * @apiDescription Logs out the authenticated user by clearing the JWT token.
+ *
+ * @apiSuccess {String} message Success message.
+ *
+ * @apiError (500) InternalServerError Internal server error.
+ */
 export const logout = (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
