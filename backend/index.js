@@ -13,7 +13,7 @@ import { app, server } from "./src/lib/socket.js";
 
 dotenv.config();
 
-const PORT = 5000;
+const PORT = 5001;
 
 const __dirname = path.resolve();
 
@@ -22,11 +22,10 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+    origin: "http://localhost:5173", // Your frontend URL
+    credentials: true, // Allow cookies to be sent
   })
 );
-
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
