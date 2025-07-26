@@ -35,7 +35,7 @@ const ChatContainer = () => {
 
   if (isMessagesLoading) {
     return (
-      <div className="flex-1 flex flex-col overflow-auto">
+      <div className="flex-1 flex flex-col overflow-auto bg-gray-50">
         <ChatHeader />
         <MessageSkeleton />
         <MessageInput />
@@ -44,7 +44,7 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-auto">
+    <div className="flex-1 flex flex-col overflow-auto bg-gray-100">
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -54,8 +54,8 @@ const ChatContainer = () => {
             className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
           >
-            <div className=" chat-image avatar">
-              <div className="size-10 rounded-full border">
+            <div className="chat-image avatar">
+              <div className="size-10 rounded-full border border-gray-200 bg-white">
                 <img
                   src={
                     message.senderId === authUser._id
@@ -63,23 +63,33 @@ const ChatContainer = () => {
                       : selectedUser.profilePic || "/avatar.png"
                   }
                   alt="profile pic"
+                  className="object-cover"
                 />
               </div>
             </div>
-            <div className="chat-header mb-1">
-              <time className="text-xs opacity-50 ml-1">
+            <div className="chat-header mb-1 flex items-center">
+              <span className="font-medium text-gray-700 text-sm">
+                {message.senderId === authUser._id ? "You" : selectedUser.fullName}
+              </span>
+              <time className="text-xs text-gray-500 ml-2">
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col">
+            <div 
+              className={`chat-bubble flex flex-col ${
+                message.senderId === authUser._id 
+                  ? "bg-blue-500 text-white" 
+                  : "bg-white text-gray-800 border border-gray-200"
+              }`}
+            >
               {message.image && (
                 <img
                   src={message.image}
                   alt="Attachment"
-                  className="sm:max-w-[200px] rounded-md mb-2"
+                  className="max-w-[min(200px,80%)] rounded-md mb-2"
                 />
               )}
-              {message.text && <p>{message.text}</p>}
+              {message.text && <p className="break-words">{message.text}</p>}
             </div>
           </div>
         ))}
