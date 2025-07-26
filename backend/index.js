@@ -13,7 +13,7 @@ import { app, server } from "./src/lib/socket.js";
 
 dotenv.config();
 
-const PORT = 5000;
+const PORT = 5001;
 
 const __dirname = path.resolve();
 
