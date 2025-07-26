@@ -4,6 +4,21 @@ import Message from "../models/message.model.js";
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
 
+/**
+ * @api {get} /users/sidebar Get Users for Sidebar
+ * @apiName GetUsersForSidebar
+ * @apiGroup User
+ * @apiDescription Fetches a list of users excluding the logged-in user.
+ *
+ * @apiHeader {String} Authorization Bearer token.
+ *
+ * @apiSuccess {Object[]} users List of users.
+ * @apiSuccess {String} users._id User ID.
+ * @apiSuccess {String} users.name User name.
+ * @apiSuccess {String} users.email User email.
+ *
+ * @apiError (500) InternalServerError Internal server error.
+ */
 export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
@@ -16,6 +31,25 @@ export const getUsersForSidebar = async (req, res) => {
   }
 };
 
+/**
+ * @api {get} /messages/:id Get Messages
+ * @apiName GetMessages
+ * @apiGroup Message
+ * @apiDescription Fetches messages between the logged-in user and another user.
+ *
+ * @apiHeader {String} Authorization Bearer token.
+ *
+ * @apiParam {String} id ID of the user to chat with.
+ *
+ * @apiSuccess {Object[]} messages List of messages.
+ * @apiSuccess {String} messages._id Message ID.
+ * @apiSuccess {String} messages.senderId Sender ID.
+ * @apiSuccess {String} messages.receiverId Receiver ID.
+ * @apiSuccess {String} messages.content Message content.
+ * @apiSuccess {Date} messages.timestamp Message timestamp.
+ *
+ * @apiError (500) InternalServerError Internal server error.
+ */
 export const getMessages = async (req, res) => {
   try {
     const { id: userToChatId } = req.params;
