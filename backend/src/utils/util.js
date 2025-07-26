@@ -5,6 +5,8 @@ export const generateToken = (userId, res) => {
     expiresIn: "7d",
   });
 
+  console.log("Generated Token:", token); // Debugging line to log the generated token
+
   res.cookie("jwt", token, {
     maxAge: 7 * 24 * 60 * 60 * 1000, // MS
     httpOnly: true,
