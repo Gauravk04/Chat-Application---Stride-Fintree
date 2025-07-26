@@ -29,3 +29,10 @@ export const protectRoute = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const isAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    return next();
+  }
+  return res.status(403).json({ message: "Forbidden - Admins only" });
+};
